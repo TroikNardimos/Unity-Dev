@@ -42,7 +42,7 @@ public class GameManager : Singleton<GameManager>
 
     public State state = State.TITLE;
     public float timer = 0;
-    public int lives = 3;
+    public int lives = 0;
     public int score = 0;
 
     public int Lives { 
@@ -86,7 +86,7 @@ public class GameManager : Singleton<GameManager>
                 titleUI.SetActive(false);
                 winUI.SetActive(false);
                 loseUI.SetActive(false);
-                Timer = 60;
+                Timer = 120;
                 Lives = 3;
                 health.value = 100;
                 score = 0;
@@ -97,8 +97,6 @@ public class GameManager : Singleton<GameManager>
                 state = State.PLAY_GAME;
                 break;
             case State.START_LEVEL:
-                Timer = 60;
-                health.value = 100;
                 respawnEvent.RaiseEvent(respawn);
                 state = State.PLAY_GAME;
                 break;
@@ -113,6 +111,8 @@ public class GameManager : Singleton<GameManager>
                     }
                     else
                     {
+                        Timer = 60;
+                        health.value = 100;
                         state = State.START_LEVEL;
                     }
                 }
@@ -152,12 +152,12 @@ public class GameManager : Singleton<GameManager>
 
     public void OnPlayerDead()
     {
-        state = State.START_GAME;
+        state = State.START_LEVEL;
     }
 
     public void OnAddPoints(int points) 
     {
-        score += points;
+        score = points;
         print(score);
     }
 
